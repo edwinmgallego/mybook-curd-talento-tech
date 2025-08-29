@@ -7,8 +7,9 @@
 
 /** Importar el archivo de conexión a la base de datos */
 const sequelize = require("./src/models/database/dbconnection");
-
+require("./src/models/asosiation");
 const express = require("express");
+const cors = require('cors'); // ✅ 1. IMPORTAR CORS
 const app = express();
 
 /**
@@ -18,6 +19,7 @@ const app = express();
 const routes = require("./src/routes/api.routes");
 
 // Middleware para parsear cuerpos de solicitudes en formato JSON
+app.use(cors()); // ✅ 2. USAR CORS (Permite peticiones desde otros orígenes)
 app.use(express.json());
 
 // Prefijo base para las rutas de la API
