@@ -9,9 +9,18 @@
 const sequelize = require("./src/models/database/dbconnection");
 require("./src/models/asosiation");
 const express = require("express");
-const cors = require('cors');// ✅ 1. IMPORTAR CORS
-const path = require('path'); // ✅ 1. IMPORTAR EL MÓDULO 'path'
+const cors = require("cors"); // ✅ 1. IMPORTAR CORS
+const path = require("path"); // ✅ 1. IMPORTAR EL MÓDULO 'path'
+const fs = require("fs"); // ✅ 1. IMPORTAR EL MÓDULO 'fs' (File System)
 const app = express();
+
+// ✅ 2. ASEGURAR QUE EL DIRECTORIO DE UPLOADS EXISTA
+const uploadsDir = path.join(__dirname, "public/uploads");
+if (!fs.existsSync(uploadsDir)) {
+  // El 'recursive: true' crea la carpeta 'public' si tampoco existe
+  fs.mkdirSync(uploadsDir, { recursive: true });
+  console.log("Directorio 'public/uploads' creado.");
+}
 
 /**
  * Importar el archivo de rutas de la API.
@@ -25,7 +34,7 @@ app.use(express.json());
 // ✅ 2. CREAR CARPETA PÚBLICA ESTÁTICA
 // Esto hará que los archivos dentro de 'public/uploads' sean accesibles desde la URL
 // Ejemplo: http://localhost:3000/uploads/nombre-de-la-imagen.jpg
-app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
+app.use("/uploads", express.static(path.join(__dirname, "public/uploads")));
 
 // Prefijo base para las rutas de la API
 app.use("/api", routes);
