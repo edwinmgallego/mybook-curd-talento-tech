@@ -9,7 +9,8 @@
 const sequelize = require("./src/models/database/dbconnection");
 require("./src/models/asosiation");
 const express = require("express");
-const cors = require('cors'); // ✅ 1. IMPORTAR CORS
+const cors = require('cors');// ✅ 1. IMPORTAR CORS
+const path = require('path'); // ✅ 1. IMPORTAR EL MÓDULO 'path'
 const app = express();
 
 /**
@@ -21,6 +22,10 @@ const routes = require("./src/routes/api.routes");
 // Middleware para parsear cuerpos de solicitudes en formato JSON
 app.use(cors()); // ✅ 2. USAR CORS (Permite peticiones desde otros orígenes)
 app.use(express.json());
+// ✅ 2. CREAR CARPETA PÚBLICA ESTÁTICA
+// Esto hará que los archivos dentro de 'public/uploads' sean accesibles desde la URL
+// Ejemplo: http://localhost:3000/uploads/nombre-de-la-imagen.jpg
+app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 
 // Prefijo base para las rutas de la API
 app.use("/api", routes);

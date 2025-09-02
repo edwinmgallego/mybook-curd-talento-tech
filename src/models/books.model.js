@@ -44,6 +44,11 @@ Book.init(
       type: DataTypes.TEXT,
       allowNull: true,
     },
+    // ✅ NUEVO CAMPO PARA LA IMAGEN
+    cover_image_filename: {
+      type: DataTypes.STRING,
+      allowNull: true, // Permitimos que sea nulo si un libro no tiene portada
+    },
     is_active: {
       type: DataTypes.BOOLEAN,
       allowNull: false,

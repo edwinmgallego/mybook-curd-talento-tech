@@ -30,8 +30,14 @@ const create = async (req, res) => {
       });
     }
 
+    // 🔄 MODIFICADO: Añadir el nombre del archivo si existe
+    const bookData = { ...req.body };
+    if (req.file) {
+      bookData.cover_image_filename = req.file.filename; // Guardamos solo el nombre del archivo
+    }
     /**crear el registro */
-    const bookCreate = await Book.create(req.body, {});
+    /**crear el registro */
+    await Book.create(bookData);
 
     return res.status(201).json({
       status: true,
@@ -85,7 +91,14 @@ const update = async (req, res) => {
       });
     }
 
-    await book.update(req.body);
+    // 🔄 MODIFICADO: Preparar datos y añadir nuevo archivo si se sube
+    const updateData = { ...req.body };
+    if (req.file) {
+      // Opcional: podrías querer borrar el archivo antiguo del servidor aquí
+      updateData.cover_image_filename = req.file.filename;
+    }
+
+    await book.update(updateData);
 
     return res.status(200).json({
       status: true,
